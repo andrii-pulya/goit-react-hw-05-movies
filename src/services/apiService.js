@@ -5,8 +5,8 @@ export default class TMDbServiseApi {
     axios.defaults.baseURL = "https://api.themoviedb.org/3/";
     const myKey = "beea9164eba1ba2b98c8949b252f13b7";
     try {
-      const request = await axios.get(`trending/movie/week?api_key=${myKey}`);
-      return request.results;
+      const request = await axios.get(`trending/movie/day?api_key=${myKey}`);
+      return request.data.results;
     } catch (error) {
       return error;
     }
@@ -30,7 +30,7 @@ export default class TMDbServiseApi {
     const myKey = "beea9164eba1ba2b98c8949b252f13b7";
     try {
       const request = await axios.get(`movie/${movieId}?api_key=${myKey}`);
-      return request;
+      return request.data;
     } catch (error) {
       return error;
     }

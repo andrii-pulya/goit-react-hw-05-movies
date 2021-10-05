@@ -1,8 +1,10 @@
 import { Switch, Route, NavLink } from "react-router-dom";
 import styled from "@emotion/styled";
 
-import { HomePage } from "./pages/HomePage.jsx";
+import HomePage from "./pages/HomePage.jsx";
 import { TestPage } from "./pages/TestPage.jsx";
+import NotFoundPage from "./pages/NotFoundPage.jsx";
+import MovieDetails from "./pages/MovieDetails.jsx";
 
 const StyledNavLink = styled(NavLink)`
   color: red;
@@ -20,8 +22,14 @@ function App() {
         <Route path="/" exact>
           <HomePage />
         </Route>
-        <Route path="/movies">
+        <Route path="/movies" exact>
           <TestPage />
+        </Route>
+        <Route path="/movies/:filmId">
+          <MovieDetails />
+        </Route>
+        <Route>
+          <NotFoundPage />
         </Route>
       </Switch>
     </>

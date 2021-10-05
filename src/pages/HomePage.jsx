@@ -1,23 +1,29 @@
 import React, { useState, useEffect } from 'react'
+import { Link } from 'react-router-dom'
 import TMDbServiseApi from '../services/apiService.js'
 
 const TMDbServise = new TMDbServiseApi()
 
-export const HomePage = () => {
-  const { trendFilms, setTrendFilms } = useState(null)
+export default function HomePage() {
+  const [trendFilms, setTrendFilms] = useState(null)
 
   useEffect(() => {
     TMDbServise.getTrendingFilm()
       .then((response) => setTrendFilms(response))
       .catch((error) => alert(error.message))
-  })
+  }, [])
 
-  console.log(trendFilms)
   return (
-    <ul>
-      {trendFilms.map((film) => (
-        <li>{film.title}</li>
-      ))}
-    </ul>
+    <>
+      <h1>Trending today</h1>
+      <ul>
+        {trendFilms &&
+          trendFilms.map((film) => (
+            <li key={film.id}>
+              <Link to={`movies/${film.id}`}>{film.title}</Link>
+            </li>
+          ))}
+      </ul>
+    </>
   )
 }
