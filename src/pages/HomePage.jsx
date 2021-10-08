@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
+
 import TMDbServiseApi from '../services/apiService.js'
 
 const TMDbServise = new TMDbServiseApi()

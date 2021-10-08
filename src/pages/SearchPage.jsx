@@ -45,7 +45,6 @@ export default function SearchPage() {
   }
 
   const lastFindings = JSON.parse(localStorage.lastSearch)
-  console.log('lastFindings: ', lastFindings)
 
   return (
     <>

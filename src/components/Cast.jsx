@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react'
+import PropTypes from 'prop-types'
 
 import TMDbServiseApi from '../services/apiService.js'
 
@@ -36,4 +37,8 @@ export default function Cast({ movieId }) {
         ))}
     </ul>
   )
+}
+
+Cast.propTypes = {
+  movieId: PropTypes.string,
 }

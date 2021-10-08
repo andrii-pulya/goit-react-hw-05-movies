@@ -1,4 +1,5 @@
 import axios from "axios";
+import PropTypes from "prop-types";
 
 export default class TMDbServiseApi {
   async getTrendingFilm() {
