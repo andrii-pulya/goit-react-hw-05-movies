@@ -1,37 +1,46 @@
-import { Switch, Route, NavLink } from "react-router-dom";
-import styled from "@emotion/styled";
+import { lazy, Suspense } from "react";
+import { Switch, Route } from "react-router-dom";
 
-import HomePage from "./pages/HomePage.jsx";
-import { TestPage } from "./pages/TestPage.jsx";
-import NotFoundPage from "./pages/NotFoundPage.jsx";
-import MovieDetails from "./pages/MovieDetails.jsx";
+import Navigation from "./components/Navigation/Navigation.jsx";
+// import HomePage from './pages/HomePage.jsx'
+// import SearchPage from './pages/SearchPage.jsx'
+// import NotFoundPage from './pages/NotFoundPage.jsx'
+// import MovieDetails from './pages/MovieDetails.jsx'
 
-const StyledNavLink = styled(NavLink)`
-  color: red;
-  margin: 0 10px;
-`;
+const HomePage = lazy(() =>
+  import("./pages/HomePage.jsx" /* webpackChunkName: "home-page" */)
+);
+const SearchPage = lazy(() =>
+  import("./pages/SearchPage.jsx" /* webpackChunkName: "search-page" */)
+);
+const MovieDetails = lazy(() =>
+  import("./pages/MovieDetails.jsx" /* webpackChunkName: "movie-details" */)
+);
 
 function App() {
   return (
     <>
-      <nav>
-        <StyledNavLink to="/">Home</StyledNavLink>
-        <StyledNavLink to="/movies">Movies</StyledNavLink>
-      </nav>
-      <Switch>
-        <Route path="/" exact>
-          <HomePage />
-        </Route>
-        <Route path="/movies" exact>
-          <TestPage />
-        </Route>
-        <Route path="/movies/:filmId">
-          <MovieDetails />
-        </Route>
-        <Route>
-          <NotFoundPage />
-        </Route>
-      </Switch>
+      <header>
+        <Navigation />
+        <hr />
+      </header>
+      <Suspense fallback={<h1>LOADING...</h1>}>
+        <Switch>
+          <Route path="/" exact>
+            <HomePage />
+          </Route>
+          <Route path="/movies" exact>
+            <SearchPage />
+          </Route>
+          <Route path="/movies/:filmId">
+            <MovieDetails />
+          </Route>
+          <Route>
+            {/* <NotFoundPage /> */}
+            <HomePage />
+          </Route>
+        </Switch>
+      </Suspense>
     </>
   );
 }

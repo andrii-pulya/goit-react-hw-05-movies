@@ -19,7 +19,7 @@ export default class TMDbServiseApi {
       const request = await axios.get(
         `search/movie?api_key=${myKey}&query=${filmName}`
       );
-      return request.results;
+      return request.data.results;
     } catch (error) {
       return error;
     }
@@ -43,7 +43,7 @@ export default class TMDbServiseApi {
       const request = await axios.get(
         `movie/${movieId}/credits?api_key=${myKey}`
       );
-      return request.cast;
+      return request.data.cast;
     } catch (error) {
       return error;
     }
@@ -56,7 +56,7 @@ export default class TMDbServiseApi {
       const request = await axios.get(
         `movie/${movieId}/reviews?api_key=${myKey}`
       );
-      return request.results;
+      return request.data.results;
     } catch (error) {
       return error;
     }

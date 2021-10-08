@@ -20,7 +20,14 @@ export default function HomePage() {
         {trendFilms &&
           trendFilms.map((film) => (
             <li key={film.id}>
-              <Link to={`movies/${film.id}`}>{film.title}</Link>
+              <Link
+                to={{
+                  pathname: `movies/${film.id}`,
+                  state: { from: `/` },
+                }}
+              >
+                {film.title}
+              </Link>
             </li>
           ))}
       </ul>
