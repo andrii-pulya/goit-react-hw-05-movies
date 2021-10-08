@@ -13,7 +13,10 @@ export default function Navigation() {
         Home
       </NavLink>
       <NavLink
-        to="/movies"
+        to={{
+          pathname: `/movies`,
+          state: { from: `/movies` },
+        }}
         className={styles.link}
         activeClassName={styles.activeLink}
       >

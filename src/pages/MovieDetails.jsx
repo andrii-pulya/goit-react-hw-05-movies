@@ -52,13 +52,13 @@ export default function MovieDetails() {
       .catch((error) => alert(error.message))
   }, [filmId])
 
-  const handkeGoBack = () => {
+  const handleGoBack = () => {
     history.push(location.state?.from ? location.state.from : '/')
   }
 
   return (
     <>
-      <button onClick={handkeGoBack} style={blockMargin}>
+      <button onClick={handleGoBack} style={blockMargin}>
         ⟵ Go back
       </button>
       {filmDetails && (

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useLocation } from 'react-router-dom'
 import toast, { Toaster } from 'react-hot-toast'
 
 import TMDbServiseApi from '../services/apiService.js'
@@ -9,8 +9,14 @@ const TMDbServise = new TMDbServiseApi()
 export default function SearchPage() {
   const [filmsList, setFilmsList] = useState(null)
   const [movieName, setMovieName] = useState(null)
+  const location = useLocation()
 
-  console.log(movieName)
+  let lastFindings = JSON.parse(localStorage.getItem('lastSearch'))
+  const locationCheck = location.state?.from === '/movies'
+
+  if (locationCheck) {
+    localStorage.removeItem('lastSearch')
+  }
 
   function handleFormSubmit(filmName) {
     if (filmName.trim() === '') {
@@ -32,22 +38,20 @@ export default function SearchPage() {
   const handleSubmit = (e) => {
     e.preventDefault()
     const inputValue = e.target.elements.movieName.value
-    if (inputValue === localStorage.getItem('findFilmByName')) {
+
+    if (inputValue === localStorage.getItem('findFilmByName') && filmsList) {
       toast('Look, We already find it!', {
         style: { color: 'blue', backgroundColor: 'yellow' },
         icon: '🔥',
       })
+      return
     }
     setMovieName(inputValue.trim())
-    localStorage.setItem('findFilmByName', inputValue.trim())
+    if (inputValue !== '') {
+      localStorage.setItem('findFilmByName', inputValue.trim())
+    }
     handleFormSubmit(inputValue)
   }
-
-  useEffect(() => {
-    if (!movieName && !filmsList) {
-      localStorage.clear()
-    }
-  }, [])
 
   useEffect(() => {
     if (filmsList && filmsList.length === 0) {
@@ -57,9 +61,7 @@ export default function SearchPage() {
     if (filmsList) {
       localStorage.setItem('lastSearch', JSON.stringify(filmsList))
     }
-  }, [filmsList])
-
-  const lastFindings = JSON.parse(localStorage.getItem('lastSearch'))
+  }, [filmsList, locationCheck])
 
   return (
     <>
@@ -90,7 +92,7 @@ export default function SearchPage() {
         </ul>
       )}
 
-      {!filmsList && lastFindings && (
+      {!locationCheck && !filmsList && lastFindings && (
         <ul>
           {lastFindings.map((film) => (
             <li key={film.id}>
