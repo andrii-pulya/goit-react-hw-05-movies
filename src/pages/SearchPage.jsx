@@ -10,6 +10,8 @@ export default function SearchPage() {
   const [filmsList, setFilmsList] = useState(null)
   const [movieName, setMovieName] = useState(null)
 
+  console.log(movieName)
+
   function handleFormSubmit(filmName) {
     if (filmName.trim() === '') {
       toast.error('Please, enter the key word!')
@@ -27,6 +29,26 @@ export default function SearchPage() {
     }
   }
 
+  const handleSubmit = (e) => {
+    e.preventDefault()
+    const inputValue = e.target.elements.movieName.value
+    if (inputValue === localStorage.getItem('findFilmByName')) {
+      toast('Look, We already find it!', {
+        style: { color: 'blue', backgroundColor: 'yellow' },
+        icon: '🔥',
+      })
+    }
+    setMovieName(inputValue.trim())
+    localStorage.setItem('findFilmByName', inputValue.trim())
+    handleFormSubmit(inputValue)
+  }
+
+  useEffect(() => {
+    if (!movieName && !filmsList) {
+      localStorage.clear()
+    }
+  }, [])
+
   useEffect(() => {
     if (filmsList && filmsList.length === 0) {
       toast.error("We tried, but can't find any")
@@ -36,13 +58,6 @@ export default function SearchPage() {
       localStorage.setItem('lastSearch', JSON.stringify(filmsList))
     }
   }, [filmsList])
-
-  const handleSubmit = (e) => {
-    e.preventDefault()
-    const inputValue = e.target.elements.movieName.value
-    setMovieName(inputValue.trim())
-    handleFormSubmit(inputValue)
-  }
 
   const lastFindings = JSON.parse(localStorage.getItem('lastSearch'))
 
@@ -75,7 +90,7 @@ export default function SearchPage() {
         </ul>
       )}
 
-      {lastFindings && (
+      {!filmsList && lastFindings && (
         <ul>
           {lastFindings.map((film) => (
             <li key={film.id}>
