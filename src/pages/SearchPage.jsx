@@ -44,7 +44,7 @@ export default function SearchPage() {
     handleFormSubmit(inputValue)
   }
 
-  const lastFindings = JSON.parse(localStorage.lastSearch)
+  const lastFindings = JSON.parse(localStorage.getItem('lastSearch'))
 
   return (
     <>
