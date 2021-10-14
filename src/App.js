@@ -13,6 +13,10 @@ const HomePage = lazy(() =>
 const SearchPage = lazy(() =>
   import("./pages/SearchPage.jsx" /* webpackChunkName: "search-page" */)
 );
+const NotFoundPage = lazy(() =>
+  import("./pages/NotFoundPage.jsx" /* webpackChunkName: "notFound-page" */)
+);
+
 const MovieDetails = lazy(() =>
   import("./pages/MovieDetails.jsx" /* webpackChunkName: "movie-details" */)
 );
@@ -36,8 +40,8 @@ function App() {
             <MovieDetails />
           </Route>
           <Route>
-            {/* <NotFoundPage /> */}
-            <HomePage />
+            <NotFoundPage />
+            {/* <HomePage /> */}
           </Route>
         </Switch>
       </Suspense>
